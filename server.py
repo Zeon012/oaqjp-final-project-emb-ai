@@ -14,10 +14,18 @@ app=Flask("Emotion Detector")
 def sent_analyzer():
     text_to_analyze = request.args.get('textToAnalyze')
     response = emotion_detector(text_to_analyze)
-    formatted_response=json.loads(response.text) #Parsing Json Text
+    formatted_response = json.loads(response.text)  # Parsing Json Text
     emotions = formatted_response['emotionPredictions'][0]['emotion']
     dominant_emotion = max(emotions, key=emotions.get)
-    return "For the given statement the system response is, " ,"'anger': emotions['anger']","'disgust': emotions['disgust']","'fear': emotions['fear']", "'joy': emotions['joy']", "'sadness': emotions['sadness']," "and the dominant emotion is ", dominant_emotion
+    return (
+        f"For the given statement, the system response is: "
+        f"'anger': {emotions['anger']}, "
+        f"'disgust': {emotions['disgust']}, "
+        f"'fear': {emotions['fear']}, "
+        f"'joy': {emotions['joy']}, "
+        f"'sadness': {emotions['sadness']}, "
+        f"and the dominant emotion is {dominant_emotion}."
+    )
 
 @app.route("/")
 def render_index_page():
